@@ -26,19 +26,19 @@ function Digole12864 (hardware, cb){
 
   self._lcdWrite = function(data, cb){
     var self = this;
-    self.uart.write(data), function (err){
-      cb(err);
-    });
+    self.uart.write(data);
+    if(cb)
+      cb(self);
   };
 
   async.series([
     function(callback){
       // Clear the display
-      self._lcdWrite('CL\n' callback);
+      self._lcdWrite('CL\n', callback);
     },
     function(callback){
       // Display welcome message
-      self._lcdWrite('TTReady...\n' callback);
+      self._lcdWrite('TTReady...\n', callback);
     }
   ],
   function(err, results){
@@ -95,7 +95,7 @@ Digole12864.prototype.bitmap = function (bitmapData, cb){
 
 Digole12864.prototype.clear = function (cb){
   var self = this;
-  self._lcdWrite('CL\n' cb);
+  self._lcdWrite('CL\n', cb);
 };
 
 
