@@ -1,0 +1,35 @@
+{
+  "name": "tessel-digole12864",
+  "version": "0.1.0",
+  "description": "Digole Serial Display for Tessel",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "directories": {
+    "example": "examples"
+  },
+  "hardware": {
+    "./examples": false
+  },
+  "dependencies": {
+    "async": "^0.9.0",
+    "node-png": "^0.4.3",
+    "sync-queue": "^0.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/moflo/tessel-digole12864.git"
+  },
+  "keywords": [
+    "digole",
+    "oled",
+    "tessel"
+  ],
+  "author": "Mobile Flow LLC",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/moflo/tessel-digole12864/issues"
+  },
+  "homepage": "https://github.com/moflo/tessel-digole12864"
+}
