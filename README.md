@@ -19,7 +19,6 @@ Installation
 npm install tessel-digole12864
 ```
 
-```
 
 
 Methods
