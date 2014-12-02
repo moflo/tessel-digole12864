@@ -4,12 +4,13 @@ tessel-digole12864
 Tessel library driver for Digole Serial Display 128x64 OLED
 
 
-If you run into any issues you can ask for support on the [Relay Module Forums](http://forums.tessel.io/category/relay).
+If you run into any issues you can ask for support on the [3rd Party Module Forums](http://forums.tessel.io/category/digole).
 
 Hardware Setup
 --------------
 
-e.g. "Here are some pictures that will help you plug in this module" or "these are the switches that are user controlled."
+Digole Serial Display module, available in multiple configurations directly from Digole [Digole OLED Info](http://www.digole.com/index.php?productID=540)
+
 
 Installation
 ------------
@@ -18,12 +19,6 @@ Installation
 npm install tessel-digole12864
 ```
 
-Example
--------
-
-```js
-Exactly the contents of the examples/<module name>.js.
-The importation line should refer to the npm module, not '../'.
 ```
 
 
@@ -57,13 +52,16 @@ var tessel = require('tessel');
 var digole12864 = require('../').use(tessel.port['D']);
 
 digole12864.on('ready', function(){
-digole12864.clear(function(){
-digole12864.string("Hello Tessel!");
-});
+  digole12864.clear(function(){
+    digole12864.string("Hello Tessel!");
+  });
 });
 ```
-### Further Examples  
-* [Bitmap Display](examples/bitmap.js). Demonstrates how to display a monochrome bitmap on the lcd.
+
+Further Examples
+----------------
+
+* [Bitmap Display](examples/bitmap.js). Demonstrates how to display a monochrome bitmap on the Digole display.
 
 
 Licensing
