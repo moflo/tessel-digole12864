@@ -68,12 +68,16 @@ util.inherits(Digole12864, EventEmitter);
 
 /*---- Text Methods ----*/
 
+//Digole12864.**setFont**(f,[callback(err)]) - Set text font (f: 0/6/10/18/51/120/123)
+
 Digole12864.prototype.setFont = function(f, cb){
     var self = this;
     var buf = new Buffer(1);
     buf.writeUInt8(f, 0);
     self._lcdWrite('SF'+buf.toString()+'\n',cb);
 }
+
+//Digole12864.**character**(c,[callback(err)]) - Write character (c) to screen at cursor
 
 Digole12864.prototype.character = function (character, cb){
   var self = this;
@@ -83,6 +87,8 @@ Digole12864.prototype.character = function (character, cb){
         cb();
 };
 
+//Digole12864.**string**(s,[callback(err)]) - Write string (s) to screen at cursor
+
 Digole12864.prototype.string = function (data, cb){
   var self = this;
   if(DEBUG) console.log("Write string: "+data);
@@ -90,6 +96,8 @@ Digole12864.prototype.string = function (data, cb){
   if(cb)
     cb();
 };
+
+//Digole12864.**stringXY**(x,y,s,[callback(err)]) - Write string (s) to screen at (x,y)
 
 Digole12864.prototype.stringXY = function (x,y, data, cb){
   var self = this;
@@ -112,6 +120,8 @@ Digole12864.prototype.stringXY = function (x,y, data, cb){
   });
 };
 
+//Digole12864.**setTextPosAbs**(x,y,[callback(err)]) - Set text cursor at (x,y)
+
 Digole12864.prototype.setTextPosAbs = function(x, y, cb){
     var self = this;
     var buf = new Buffer(2);
@@ -119,6 +129,8 @@ Digole12864.prototype.setTextPosAbs = function(x, y, cb){
     buf.writeUInt8(y, 1);
     self._lcdWrite('ETP'+buf.toString()+'\n',cb);
 }
+
+//Digole12864.**setTextPosOffset**(xoff,yoff,[callback(err)]) - Set text cursor offset (xoff,yoff)
 
 Digole12864.prototype.setTextPosOffset = function(xoff, yoff, cb){
     var self = this;
@@ -128,10 +140,14 @@ Digole12864.prototype.setTextPosOffset = function(xoff, yoff, cb){
     self._lcdWrite('ETO'+buf.toString()+'\n',cb);
 }
 
+//Digole12864.**setTextPosBack**([callback(err)]) - Reset text offset setting
+
 Digole12864.prototype.setTextPosBack = function(cb){
     var self = this;
     self._lcdWrite('ETB\n',cb);
 }
+
+//Digole12864.**nextTextLine**([callback(err)]) - Start next text draw on new line
 
 Digole12864.prototype.nextTextLine = function(cb){
     var self = this;
@@ -141,6 +157,8 @@ Digole12864.prototype.nextTextLine = function(cb){
 
 
 /*---- Drawing Methods ----*/
+
+//Digole12864.**drawBox**(x,y,w,h,[callback(err)]) - Draw filled rectangle at (x,y) and size (w,h)
 
 Digole12864.prototype.drawBox = function (x, y, w, h, cb){
   var self = this;
@@ -154,6 +172,8 @@ Digole12864.prototype.drawBox = function (x, y, w, h, cb){
   self._lcdWrite('FR'+buf.toString()+'\n',cb);
 };
 
+//Digole12864.**drawBoxFrame**(x,y,w,h,[callback(err)]) - Draw framed rectangle at (x,y) and size (w,h)
+
 Digole12864.prototype.drawBoxFrame = function (x, y, w, h, cb){
     var self = this;
     if(DEBUG) console.log("Frame box: "+util.format("%d,%d %d,%d",x,y,x+w,y+h));
@@ -165,6 +185,8 @@ Digole12864.prototype.drawBoxFrame = function (x, y, w, h, cb){
     
     self._lcdWrite('DR'+buf.toString()+'\n',cb);
 };
+
+//Digole12864.**drawCircle**(x,y,r,[callback(err)]) - Draw filled circle at (x,y) and radius (r)
 
 Digole12864.prototype.drawCircle = function (x, y, r, cb){
     var self = this;
@@ -178,6 +200,8 @@ Digole12864.prototype.drawCircle = function (x, y, r, cb){
     self._lcdWrite('CC'+buf.toString()+'\n',cb);
 };
 
+//Digole12864.**drawCircleFrame**(x,y,r,[callback(err)]) - Draw framed circle at (x,y) and radius (r)
+
 Digole12864.prototype.drawCircleFrame = function (x, y, r, cb){
     var self = this;
     if(DEBUG) console.log("Frame circle: "+util.format("%d,%d %d",x,y,r));
@@ -190,6 +214,8 @@ Digole12864.prototype.drawCircleFrame = function (x, y, r, cb){
     self._lcdWrite('CC'+buf.toString()+'\n',cb);
 };
 
+//Digole12864.**drawPixel**(x,y,[callback(err)]) - Draw pixel at (x,y)
+
 Digole12864.prototype.drawPixel = function(x, y, cb){
     var self = this;
     var buf = new Buffer(2);
@@ -198,12 +224,16 @@ Digole12864.prototype.drawPixel = function(x, y, cb){
     self._lcdWrite('DP'+buf.toString()+'\n',cb);
 }
 
+//Digole12864.**setLinePattern**(p,[callback(err)]) - Set drawing line pattern (p: bit field)
+
 Digole12864.prototype.setLinePattern = function(pattern, cb){
     var self = this;
     var buf = new Buffer(1);
     buf.writeUInt8(pattern, 0);
     self._lcdWrite('SLP'+buf.toString()+'\n',cb);
 }
+
+//Digole12864.**setPosition**(x,y,[callback(err)]) - Begin line drawing from (x,y)
 
 Digole12864.prototype.setPosition = function(x, y, cb){
     var self = this;
@@ -213,6 +243,8 @@ Digole12864.prototype.setPosition = function(x, y, cb){
     self._lcdWrite('GP'+buf.toString()+'\n',cb);
 }
 
+//Digole12864.**drawLineTo**(x,y,[callback(err)]) - Draw line to (x,y)
+
 Digole12864.prototype.drawLineTo = function(x, y, cb){
     var self = this;
     var buf = new Buffer(2);
@@ -220,6 +252,8 @@ Digole12864.prototype.drawLineTo = function(x, y, cb){
     buf.writeUInt8(y, 1);
     self._lcdWrite('LT'+buf.toString()+'\n',cb);
 }
+
+//Digole12864.**drawLine**(x,y,x1,y1,[callback(err)]) - Draw line from (x,y) to (x1,y1)
 
 Digole12864.prototype.drawLine = function(x, y, x1, y1, cb){
     var self = this;
@@ -231,12 +265,16 @@ Digole12864.prototype.drawLine = function(x, y, x1, y1, cb){
     self._lcdWrite('LN'+buf.toString()+'\n',cb);
 }
 
+//Digole12864.**setRotation**(r,[callback(err)]) - Set rotation for subsequent draws (0-3: 0/90/180/270 degrees)
+
 Digole12864.prototype.setRotation = function(rot, cb){
     var self = this;
     var buf = new Buffer(1);
     buf.writeUInt8(rot, 0);
     self._lcdWrite('SD'+buf.toString()+'\n',cb);
 }
+
+//Digole12864.**setRotation0**([callback(err)]) - Set rotation for subsequent draws to 0 degrees
 
 Digole12864.prototype.setRotation0 = function(cb){
     var self = this;
@@ -245,6 +283,8 @@ Digole12864.prototype.setRotation0 = function(cb){
     self._lcdWrite('SD'+buf.toString()+'\n',cb);
 }
 
+//Digole12864.**setRotation90**([callback(err)]) - Set rotation for subsequent draws to 90 degrees
+
 Digole12864.prototype.setRotation90 = function(cb){
     var self = this;
     var buf = new Buffer(1);
@@ -252,12 +292,16 @@ Digole12864.prototype.setRotation90 = function(cb){
     self._lcdWrite('SD'+buf.toString()+'\n',cb);
 }
 
+//Digole12864.**setRotation180**([callback(err)]) - Set rotation for subsequent draws to 180 degrees
+
 Digole12864.prototype.setRotation180 = function(cb){
     var self = this;
     var buf = new Buffer(1);
     buf.writeUInt8(2, 0);
     self._lcdWrite('SD'+buf.toString()+'\n',cb);
 }
+
+//Digole12864.**setRotation270**([callback(err)]) - Set rotation for subsequent draws to 270 degrees
 
 Digole12864.prototype.setRotation270 = function(cb){
     var self = this;
@@ -270,7 +314,7 @@ Digole12864.prototype.setRotation270 = function(cb){
 
 /*----- Bitmap Methods -----*/
 
-0xAA
+//Digole12864.**bitmap**(x,y,w,h,data,[callback(err)]) - Draw bit map at (x,y) of size (w,h) with data (data)
 
 Digole12864.prototype.bitmap1 = function (cb){
     var self = this;
@@ -364,7 +408,7 @@ Digole12864.prototype.bitmap3 = function (cb){
     
     
       var buf = new Buffer(5+LOGO.length);
-      buf.writeUInt8(10, 0);
+      buf.writeUInt8(100, 0);
       buf.writeUInt8(0, 1);
       buf.writeUInt8(16, 2);
       buf.writeUInt8(16, 3);
@@ -389,6 +433,8 @@ Digole12864.prototype.bitmap = function (bitmapData, cb){
   });
 };
 
+//Digole12864.**moveArea**(x,y,w,h,xoff,yoff,[callback(err)]) - Move region of screen at (x,y) and size (w,h) by offset (xoff,yoff)
+
 Digole12864.prototype.moveArea = function(x, y, w, h, xoff, yoff, cb){
     var self = this;
     var buf = new Buffer(6);
@@ -401,11 +447,14 @@ Digole12864.prototype.moveArea = function(x, y, w, h, xoff, yoff, cb){
     self._lcdWrite('MA'+buf.toString()+'\n',cb);
 }
 
+//Digole12864.**clear**([callback(err)]) - Clear screen
 
 Digole12864.prototype.clear = function (cb){
   var self = this;
   self._lcdWrite('CL\n', cb);
 };
+
+//Digole12864.**setMode**(m,[callback(err)]) - Set drawing mode (m: !=nor, ^=xor, &=and, C=copy)
 
 Digole12864.prototype.setMode = function(m, cb){
     var self = this;
