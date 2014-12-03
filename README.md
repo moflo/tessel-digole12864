@@ -4,7 +4,7 @@ tessel-digole12864
 Tessel library driver for Digole Serial Display 128x64 OLED
 
 
-If you run into any issues you can ask for support on the [3rd Party Module Forums](http://forums.tessel.io/category/digole).
+If you run into any issues you can ask for support on the [3rd Party Module Forums](https://forums.tessel.io/t/oled-display/1236).
 
 Hardware Setup
 --------------
