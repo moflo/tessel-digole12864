@@ -65,6 +65,16 @@ function Digole12864 (hardware, cb){
 util.inherits(Digole12864, EventEmitter);
 
 // Define the API
+
+/*---- Text Methods ----*/
+
+Digole12864.prototype.setFont = function(f, cb){
+    var self = this;
+    var buf = new Buffer(1);
+    buf.writeUInt8(f, 0);
+    self._lcdWrite('SF'+buf.toString()+'\n',cb);
+}
+
 Digole12864.prototype.character = function (character, cb){
   var self = this;
   if(DEBUG) console.log("Write character ["+character+"]");
@@ -101,6 +111,36 @@ Digole12864.prototype.stringXY = function (x,y, data, cb){
         cb(err);
   });
 };
+
+Digole12864.prototype.setTextPosAbs = function(x, y, cb){
+    var self = this;
+    var buf = new Buffer(2);
+    buf.writeUInt8(x, 0);
+    buf.writeUInt8(y, 1);
+    self._lcdWrite('ETP'+buf.toString()+'\n',cb);
+}
+
+Digole12864.prototype.setTextPosOffset = function(xoff, yoff, cb){
+    var self = this;
+    var buf = new Buffer(2);
+    buf.writeUInt8(xoff, 0);
+    buf.writeUInt8(yoff, 1);
+    self._lcdWrite('ETO'+buf.toString()+'\n',cb);
+}
+
+Digole12864.prototype.setTextPosBack = function(cb){
+    var self = this;
+    self._lcdWrite('ETB\n',cb);
+}
+
+Digole12864.prototype.nextTextLine = function(cb){
+    var self = this;
+    self._lcdWrite('TRT\n',cb);
+}
+
+
+
+/*---- Drawing Methods ----*/
 
 Digole12864.prototype.drawBox = function (x, y, w, h, cb){
   var self = this;
@@ -150,8 +190,89 @@ Digole12864.prototype.drawCircleFrame = function (x, y, r, cb){
     self._lcdWrite('CC'+buf.toString()+'\n',cb);
 };
 
+Digole12864.prototype.drawPixel = function(x, y, cb){
+    var self = this;
+    var buf = new Buffer(2);
+    buf.writeUInt8(x, 0);
+    buf.writeUInt8(y, 1);
+    self._lcdWrite('DP'+buf.toString()+'\n',cb);
+}
+
+Digole12864.prototype.setLinePattern = function(pattern, cb){
+    var self = this;
+    var buf = new Buffer(1);
+    buf.writeUInt8(pattern, 0);
+    self._lcdWrite('SLP'+buf.toString()+'\n',cb);
+}
+
+Digole12864.prototype.setPosition = function(x, y, cb){
+    var self = this;
+    var buf = new Buffer(2);
+    buf.writeUInt8(x, 0);
+    buf.writeUInt8(y, 1);
+    self._lcdWrite('GP'+buf.toString()+'\n',cb);
+}
+
+Digole12864.prototype.drawLineTo = function(x, y, cb){
+    var self = this;
+    var buf = new Buffer(2);
+    buf.writeUInt8(x, 0);
+    buf.writeUInt8(y, 1);
+    self._lcdWrite('LT'+buf.toString()+'\n',cb);
+}
+
+Digole12864.prototype.drawLine = function(x, y, x1, y1, cb){
+    var self = this;
+    var buf = new Buffer(4);
+    buf.writeUInt8(x, 0);
+    buf.writeUInt8(y, 1);
+    buf.writeUInt8(x1, 2);
+    buf.writeUInt8(y2, 3);
+    self._lcdWrite('LN'+buf.toString()+'\n',cb);
+}
+
+Digole12864.prototype.setRotation = function(rot, cb){
+    var self = this;
+    var buf = new Buffer(1);
+    buf.writeUInt8(rot, 0);
+    self._lcdWrite('SD'+buf.toString()+'\n',cb);
+}
+
+Digole12864.prototype.setRotation0 = function(cb){
+    var self = this;
+    var buf = new Buffer(1);
+    buf.writeUInt8(0, 0);
+    self._lcdWrite('SD'+buf.toString()+'\n',cb);
+}
+
+Digole12864.prototype.setRotation90 = function(cb){
+    var self = this;
+    var buf = new Buffer(1);
+    buf.writeUInt8(1, 0);
+    self._lcdWrite('SD'+buf.toString()+'\n',cb);
+}
+
+Digole12864.prototype.setRotation180 = function(cb){
+    var self = this;
+    var buf = new Buffer(1);
+    buf.writeUInt8(2, 0);
+    self._lcdWrite('SD'+buf.toString()+'\n',cb);
+}
+
+Digole12864.prototype.setRotation270 = function(cb){
+    var self = this;
+    var buf = new Buffer(1);
+    buf.writeUInt8(3, 0);
+    self._lcdWrite('SD'+buf.toString()+'\n',cb);
+}
+
+
+
+/*----- Bitmap Methods -----*/
+
 Digole12864.prototype.bitmap = function (bitmapData, cb){
   var self = this;
+    EDIM1B
   async.eachSeries(bitmapData, function(dataPoint, callback){
     self._lcdWrite(dataPoint, callback);
   },
@@ -160,6 +281,19 @@ Digole12864.prototype.bitmap = function (bitmapData, cb){
       cb(err);
   });
 };
+
+Digole12864.prototype.moveArea = function(x, y, w, h, xoff, yoff, cb){
+    var self = this;
+    var buf = new Buffer(6);
+    buf.writeUInt8(x, 0);
+    buf.writeUInt8(y, 1);
+    buf.writeUInt8(w, 2);
+    buf.writeUInt8(h, 3);
+    buf.writeUInt8(xoff, 4);
+    buf.writeUInt8(yoff, 5);
+    self._lcdWrite('MA'+buf.toString()+'\n',cb);
+}
+
 
 Digole12864.prototype.clear = function (cb){
   var self = this;
@@ -171,20 +305,6 @@ Digole12864.prototype.setMode = function(m, cb){
     self._lcdWrite('SM'+m, cb);
 }
 
-Digole12864.prototype.setFont = function(f, cb){
-    var self = this;
-    var buf = new Buffer(1);
-    buf.writeUInt8(f, 0);
-    self._lcdWrite('SF'+buf.toString()+'\n',cb);
-}
-
-Digole12864.prototype.drawPixel = function(x, y, cb){
-    var self = this;
-    var buf = new Buffer(2);
-    buf.writeUInt8(x, 0);
-    buf.writeUInt8(y, 1);
-    self._lcdWrite('DP'+buf.toString()+'\n',cb);
-}
 
 // Every module needs a use function which calls the constructor
 function use (hardware, callback) {
