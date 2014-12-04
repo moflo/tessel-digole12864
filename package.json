@@ -1,6 +1,6 @@
 {
   "name": "tessel-digole12864",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Digole Serial Display for Tessel",
   "main": "index.js",
   "scripts": {
