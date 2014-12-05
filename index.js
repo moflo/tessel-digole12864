@@ -28,7 +28,7 @@ function Digole12864 (hardware, cb){
 
   self._lcdWrite = function(data, cb){
     var self = this;
-    self.uart.write(new Buffer(data,'ut8f'));
+    self.uart.write(new Buffer(data,'utf8'));
     if(cb)
       cb();
   };
