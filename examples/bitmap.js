@@ -10,9 +10,8 @@ digole12864.on('ready', function(){
     digole12864.clear(function(){
                       //digole12864.drawBox(0,0,128,64);
                       digole12864.setFont(10);
-                      digole12864.stringXY(30,64,"Draw bitmap6\n");
-                      digole12864.bitmap1();
-                      digole12864.bitmap2();
+                      digole12864.stringXY(30,64,"Draw bitmap\n");
+                      digole12864.bitmaplogo(40,0);
                       
                       var LOGO = [0x00,0x00,0x00,0x00
                                   ,0x00,0x01,0x80,0x00
@@ -48,6 +47,7 @@ digole12864.on('ready', function(){
                                   ,0x00,0x00,0x00,0x00
                                   ];
                       digole12864.bitmap(128-32,0,32,32,LOGO);
+                      digole12864.string(" OK\n");
     });
 
 

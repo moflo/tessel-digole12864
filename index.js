@@ -318,42 +318,26 @@ Digole12864.prototype.setRotation270 = function(cb){
 
 Digole12864.prototype.bitmap = function (x,y,w,h,DATA,cb){
     var self = this;
-    var buf = new Buffer(5+DATA.length);
-    buf.writeUInt8(x, 0);
-    buf.writeUInt8(y, 1);
-    buf.writeUInt8(w, 2);
-    buf.writeUInt8(h, 3);
+    var buf = new Buffer(3+4+DATA.length+1);
+    var i = 0;
+    buf.writeUInt8(68, i++);        // ASCII 'D'
+    buf.writeUInt8(73, i++);        // ASCII 'I'
+    buf.writeUInt8(77, i++);        // ASCII 'M'
+    buf.writeUInt8(x, i++);
+    buf.writeUInt8(y, i++);
+    buf.writeUInt8(w, i++);
+    buf.writeUInt8(h, i++);
     
-    for (j=0;j<DATA.length;j++){
-        buf.writeUInt8(DATA[j]&(0xFF>>>1),4+j);
+    for (j=0 ;j<DATA.length; j++){
+        buf.writeUInt8(DATA[j], i++);
     }
-    self._lcdWrite('DIM'+buf.toString()+'\n',cb);
-
-};
-
-Digole12864.prototype.bitmap1 = function (cb){
-    var self = this;
-    var buf = new Buffer(12);
-    buf.writeUInt8(1, 0);
-    buf.writeUInt8(1, 1);
-    buf.writeUInt8(8, 2);
-    buf.writeUInt8(8, 3);
-    var pat = 0xFF >>> 1;
-    buf.writeUInt8(pat, 4);
-    buf.writeUInt8(pat, 5);
-    buf.writeUInt8(pat, 6);
-    buf.writeUInt8(pat, 7);
-    buf.writeUInt8(pat, 8);
-    buf.writeUInt8(pat, 9);
-    buf.writeUInt8(pat, 10);
-    buf.writeUInt8(pat, 11);
-    //self._lcdWrite('DIM'+buf.toString()+'\n',cb);
-    self.uart.write('DIM'+buf.toString()+'\n');
-    if(cb) cb();
     
+    self.uart.write(buf,cb);
+
 };
 
-Digole12864.prototype.bitmap2 = function (cb){
+
+Digole12864.prototype.bitmaplogo = function (x,y,cb){
     var self = this;
     var LOGO = [0x00,0x00,0x00,0x00,0x00,0x00,0x3f
                 ,0x00,0x00,0x00,0x00,0x00,0x00,0x3f
@@ -408,16 +392,21 @@ Digole12864.prototype.bitmap2 = function (cb){
                 ];
     
     
-      var buf = new Buffer(5+LOGO.length);
-      buf.writeUInt8(40, 0);
-      buf.writeUInt8(0, 1);
-      buf.writeUInt8(50, 2);
-      buf.writeUInt8(50, 3);
+    var buf = new Buffer(3+4+LOGO.length+1);
+    var i = 0;
+    buf.writeUInt8(68, i++);        // ASCII 'D'
+    buf.writeUInt8(73, i++);        // ASCII 'I'
+    buf.writeUInt8(77, i++);        // ASCII 'M'
+    buf.writeUInt8(x, i++);
+    buf.writeUInt8(y, i++);
+    buf.writeUInt8(50, i++);
+    buf.writeUInt8(50, i++);
     
-    for (j=0;j<LOGO.length;j++){
-        buf.writeUInt8(LOGO[j]&(0xFF>>>1),4+j);
+    for (j=0 ;j<LOGO.length; j++){
+        buf.writeUInt8(LOGO[j], i++);
     }
-      self._lcdWrite('DIM'+buf.toString()+'\n',cb);
+    
+    self.uart.write(buf,cb);
     
     
 };

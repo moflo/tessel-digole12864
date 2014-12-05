@@ -58,7 +58,40 @@ digole12864.on('ready', function(){
              });
                    
          }, 1000);
-    }
+    },
+    function(callback){
+        setTimeout(function() {
+                   
+           digole12864.clear(function(){
+                 // Draw Tessel Logo
+                 var logo_x = 26, logo_y = 32, logo_w = 40, logo_h = 40;
+                 
+                 digole12864.setPosition(logo_x-logo_w/2,logo_y);
+                 digole12864.drawLineTo(logo_x-logo_w/2,logo_y-logo_h/3);
+                 digole12864.drawLineTo(logo_x,logo_y-logo_h/2);
+                 digole12864.drawCircleFrame(logo_x,logo_y-logo_h/2,2);
+                 
+                 digole12864.setPosition(logo_x+logo_w/4,logo_y-logo_h/2+logo_h/10);
+                 digole12864.drawLineTo(logo_x+logo_w/2,logo_y-logo_h/3);
+                 digole12864.drawLineTo(logo_x+logo_w/2,logo_y+logo_h/3);
+                 digole12864.drawCircleFrame(logo_x+logo_w/2,logo_y+logo_h/3,2);
+                 
+                 digole12864.drawBox(logo_x-logo_w/10,logo_y-logo_h/4,logo_w/10,logo_h/3);
+                 digole12864.drawBox(logo_x-logo_w/6,logo_y-logo_h/4,logo_w/10,logo_h/10);
+                 
+                 digole12864.drawBox(logo_x+logo_w/10,logo_y-logo_h/4,logo_w/10,logo_h/3);
+                 digole12864.drawBox(logo_x+logo_w/10,logo_y-logo_h/4,logo_w/6,logo_h/10);
+                 
+                 digole12864.setPosition(logo_x+logo_w/4,logo_y+logo_h/2-logo_h/10);
+                 digole12864.drawLineTo(logo_x,logo_y+logo_h/2);
+                 digole12864.drawLineTo(logo_x-logo_w/2,logo_y+logo_h/3);
+                 digole12864.drawCircleFrame(logo_x-logo_w/2,logo_y+logo_h/3,2);
+
+             });
+                   
+         }, 1000);
+    },
+
   ], function(err, results){
       if(err)
          console.log("Error: "+err.message);
